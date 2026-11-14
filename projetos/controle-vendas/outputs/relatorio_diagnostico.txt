@@ -1,0 +1,64 @@
+=================================================================
+DATASOLUTIONS
+RELATÓRIO DE DIAGNÓSTICO DE DADOS
+=================================================================
+
+1. IDENTIFICAÇÃO DA BASE
+-----------------------------------------------------------------
+Arquivo analisado: vendas_brutas.csv
+Data da análise: 14/11/2026 11:52:50
+
+2. DIMENSÕES DA BASE
+-----------------------------------------------------------------
+Total de registros: 13
+Total de colunas: 8
+
+3. VALORES AUSENTES
+-----------------------------------------------------------------
+id_venda: 0
+data_venda: 0
+produto: 1
+categoria: 0
+quantidade: 0
+preco_unitario: 1
+vendedor: 0
+regiao: 1
+Total de valores ausentes: 3
+
+4. REGISTROS DUPLICADOS
+-----------------------------------------------------------------
+Total de registros duplicados: 1
+
+5. VALORES NEGATIVOS
+-----------------------------------------------------------------
+id_venda: 0
+quantidade: 1
+preco_unitario: 0
+Total de valores negativos: 1
+
+6. TIPOS DE DADOS
+-----------------------------------------------------------------
+id_venda: int64
+data_venda: str
+produto: str
+categoria: str
+quantidade: int64
+preco_unitario: float64
+vendedor: str
+regiao: str
+
+7. PROBLEMAS IDENTIFICADOS
+-----------------------------------------------------------------
+1. Valores ausentes na coluna 'produto': 1
+2. Valores ausentes na coluna 'preco_unitario': 1
+3. Valores ausentes na coluna 'regiao': 1
+4. Registros duplicados: 1
+5. Valores negativos na coluna 'quantidade': 1
+
+8. CONCLUSÃO TÉCNICA
+-----------------------------------------------------------------
+Foram identificados os seguintes pontos de atenção: 3 valor(es) ausente(s), 1 registro(s) duplicado(s), 1 valor(es) negativo(s). Recomenda-se avaliar e tratar as inconsistências antes de utilizar a base em análises comerciais. Os dados originais não foram alterados.
+
+=================================================================
+FIM DO RELATÓRIO
+=================================================================
