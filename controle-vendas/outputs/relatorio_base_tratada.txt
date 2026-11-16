@@ -1,0 +1,42 @@
+============================================================
+DATASOLUTIONS
+RELATÓRIO DE VALIDAÇÃO DA BASE TRATADA
+============================================================
+
+1. IDENTIFICAÇÃO
+------------------------------------------------------------
+Arquivo: vendas_tratadas.csv
+Data da validação: 16/11/2026 18:29:51
+
+2. DIMENSÕES
+------------------------------------------------------------
+Registros: 7
+Colunas: 8
+
+3. RESULTADOS DAS VALIDAÇÕES
+------------------------------------------------------------
+Estrutura: OK
+IDs ausentes: 0
+IDs repetidos: 0
+Linhas duplicadas: 0
+Datas ausentes: 0
+Datas inválidas: 0
+Quantidade ausente ou inválida: 0
+Quantidade menor ou igual a zero: 0
+Preço ausente ou inválido: 0
+Preço menor ou igual a zero: 0
+
+Campos obrigatórios:
+  produto: 0
+  categoria: 0
+  vendedor: 0
+  regiao: 0
+
+4. CONCLUSÃO
+------------------------------------------------------------
+APROVADA: nenhum problema foi encontrado.
+A base passou nas verificações de qualidade.
+
+============================================================
+FIM DO RELATÓRIO
+============================================================

@@ -1,0 +1,8 @@
+﻿id_venda,data_venda,produto,categoria,quantidade,preco_unitario,vendedor,regiao
+1,2026-10-01,Notebook,Eletronicos,2,3500.0,Joao,Sudeste
+2,2026-10-02,Mouse,Perifericos,5,80.0,Maria,Sul
+3,2026-10-03,Teclado,Perifericos,3,150.0,Pedro,Nordeste
+4,2026-10-04,Monitor,Eletronicos,2,900.0,Joao,Sudeste
+5,2026-10-05,Notebook,Eletronicos,1,3500.0,Maria,Sul
+7,2026-10-07,Teclado,Perifericos,4,150.0,Joao,Sudeste
+11,2026-10-11,Notebook,Eletronicos,1,3500.0,Joao,Sudeste

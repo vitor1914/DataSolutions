@@ -1,0 +1,85 @@
+=================================================================
+DATASOLUTIONS
+RELATÓRIO DE VALIDAÇÃO DE DADOS
+=================================================================
+
+1. IDENTIFICAÇÃO DA BASE
+-----------------------------------------------------------------
+Arquivo analisado: vendas_brutas.csv
+Data da validação: 16/11/2026 17:54:46
+
+2. DIMENSÕES DA BASE
+-----------------------------------------------------------------
+Registros analisados: 13
+Colunas identificadas: 8
+
+3. VALIDAÇÃO DOS IDENTIFICADORES
+-----------------------------------------------------------------
+IDs ausentes: 0
+Linhas totalmente duplicadas: 1
+Linhas envolvidas em IDs repetidos: 2
+
+Registros com IDs repetidos:
+ id_venda data_venda produto   categoria  quantidade  preco_unitario vendedor   regiao
+        9 2026-10-09 Monitor Eletronicos           3           900.0    Pedro Nordeste
+        9 2026-10-09 Monitor Eletronicos           3           900.0    Pedro Nordeste
+
+Registros totalmente duplicados:
+ id_venda data_venda produto   categoria  quantidade  preco_unitario vendedor   regiao
+        9 2026-10-09 Monitor Eletronicos           3           900.0    Pedro Nordeste
+        9 2026-10-09 Monitor Eletronicos           3           900.0    Pedro Nordeste
+
+4. VALIDAÇÃO DAS DATAS
+-----------------------------------------------------------------
+Datas ausentes: 0
+Datas inválidas: 0
+
+5. VALIDAÇÃO COMERCIAL
+-----------------------------------------------------------------
+
+quantidade:
+  Ausentes: 0
+  Invalidos: 1
+
+preco_unitario:
+  Ausentes: 1
+  Invalidos: 0
+
+produto:
+  Ausentes: 1
+
+categoria:
+  Ausentes: 0
+
+vendedor:
+  Ausentes: 0
+
+regiao:
+  Ausentes: 1
+
+6. PROBLEMAS IDENTIFICADOS
+-----------------------------------------------------------------
+1. Identificador de venda repetido: ID 9.
+2. Registro totalmente duplicado: ID 9.
+3. Quantidade menor ou igual a zero: investigar ID 6.
+4. Produto ausente: investigar ID 8.
+5. Preço unitário ausente: investigar ID 10.
+6. Região ausente: investigar ID 12.
+
+7. PROPOSTA DE TRATAMENTO
+-----------------------------------------------------------------
+ID 9: preservar as ocorrências até análise e aprovação manual.
+ID 6: investigar a origem da quantidade negativa.
+ID 8: buscar o produto em fonte confiável.
+ID 10: buscar o preço em fonte confiável, sem inventar valores.
+ID 12: verificar a possibilidade de recuperar a região.
+
+8. CONCLUSÃO TÉCNICA
+-----------------------------------------------------------------
+A base apresenta inconsistências que precisam ser avaliadas antes de sua utilização em análises comerciais.
+Nenhum registro foi excluído ou modificado nesta etapa.
+A geração da base tratada deverá ocorrer somente após a aprovação das regras de tratamento.
+
+=================================================================
+FIM DO RELATÓRIO
+=================================================================
