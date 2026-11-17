@@ -1,0 +1,24 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.7, pytest-9.2.0, pluggy-1.7.0 -- /home/vitoka/Área de trabalho/TI/DataSolutions/controle-vendas/.venv/bin/python
+cachedir: .pytest_cache
+rootdir: /home/vitoka/Área de trabalho/TI/DataSolutions/controle-vendas
+collecting ... collected 9 items
+
+tests/test_validar_dados.py::test_identificar_id_duplicado PASSED        [ 11%]
+tests/test_validar_dados.py::test_identificar_id_ausente PASSED          [ 22%]
+tests/test_validar_dados.py::test_identificar_data_invalida PASSED       [ 33%]
+tests/test_validar_dados.py::test_identificar_quantidade_negativa PASSED [ 44%]
+tests/test_validar_dados.py::test_identificar_quantidade_zero PASSED     [ 55%]
+tests/test_validar_dados.py::test_identificar_preco_zero PASSED          [ 66%]
+tests/test_validar_dados.py::test_identificar_preco_ausente PASSED       [ 77%]
+tests/test_validar_dados.py::test_identificar_produto_vazio PASSED       [ 88%]
+tests/test_validar_dados.py::test_aprovar_base_valida PASSED             [100%]
+
+=============================== warnings summary ===============================
+tests/test_validar_dados.py::test_identificar_data_invalida
+  /home/vitoka/Área de trabalho/TI/DataSolutions/controle-vendas/src/validar_dados.py:33: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+    datas_convertidas = pd.to_datetime(
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+- generated xml file: /home/vitoka/Área de trabalho/TI/DataSolutions/controle-vendas/outputs/resultado_testes.xml -
+========================= 9 passed, 1 warning in 0.68s =========================
