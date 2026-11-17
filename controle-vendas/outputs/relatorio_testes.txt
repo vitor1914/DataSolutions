@@ -14,11 +14,5 @@ tests/test_validar_dados.py::test_identificar_preco_ausente PASSED       [ 77%]
 tests/test_validar_dados.py::test_identificar_produto_vazio PASSED       [ 88%]
 tests/test_validar_dados.py::test_aprovar_base_valida PASSED             [100%]
 
-=============================== warnings summary ===============================
-tests/test_validar_dados.py::test_identificar_data_invalida
-  /home/vitoka/Área de trabalho/TI/DataSolutions/controle-vendas/src/validar_dados.py:33: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
-    datas_convertidas = pd.to_datetime(
-
--- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
 - generated xml file: /home/vitoka/Área de trabalho/TI/DataSolutions/controle-vendas/outputs/resultado_testes.xml -
-========================= 9 passed, 1 warning in 0.68s =========================
+============================== 9 passed in 0.86s ===============================

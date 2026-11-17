@@ -32,6 +32,7 @@ def validar_datas(df):
 
     datas_convertidas = pd.to_datetime(
         df["data_venda"],
+        format="%Y-%m-%d",
         errors="coerce"
     )
 
