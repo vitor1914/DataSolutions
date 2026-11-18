@@ -6,7 +6,7 @@ RELATÓRIO DE VALIDAÇÃO DE DADOS
 1. IDENTIFICAÇÃO DA BASE
 -----------------------------------------------------------------
 Arquivo analisado: vendas_brutas.csv
-Data da validação: 16/11/2026 17:54:46
+Data da validação: 18/11/2026 13:28:08
 
 2. DIMENSÕES DA BASE
 -----------------------------------------------------------------
@@ -18,6 +18,8 @@ Colunas identificadas: 8
 IDs ausentes: 0
 Linhas totalmente duplicadas: 1
 Linhas envolvidas em IDs repetidos: 2
+IDs repetidos identificados: 9
+IDs em registros totalmente duplicados: 9
 
 Registros com IDs repetidos:
  id_venda data_venda produto   categoria  quantidade  preco_unitario vendedor   regiao
@@ -59,26 +61,27 @@ regiao:
 
 6. PROBLEMAS IDENTIFICADOS
 -----------------------------------------------------------------
-1. Identificador de venda repetido: ID 9.
-2. Registro totalmente duplicado: ID 9.
-3. Quantidade menor ou igual a zero: investigar ID 6.
-4. Produto ausente: investigar ID 8.
-5. Preço unitário ausente: investigar ID 10.
-6. Região ausente: investigar ID 12.
+1. IDs de venda repetidos: 9.
+2. Registros totalmente duplicados: 9.
+3. Quantidade inválida ou menor ou igual a zero: investigar IDs 6.
+4. Produto ausente: investigar IDs 8.
+5. Preço unitário ausente: investigar IDs 10.
+6. Região ausente: investigar IDs 12.
 
 7. PROPOSTA DE TRATAMENTO
 -----------------------------------------------------------------
-ID 9: preservar as ocorrências até análise e aprovação manual.
-ID 6: investigar a origem da quantidade negativa.
-ID 8: buscar o produto em fonte confiável.
-ID 10: buscar o preço em fonte confiável, sem inventar valores.
-ID 12: verificar a possibilidade de recuperar a região.
+1. Analisar os IDs repetidos e preservar as ocorrências até a aprovação manual.
+2. Investigar os registros totalmente duplicados antes de qualquer exclusão.
+3. Investigar a origem das quantidades inválidas e confirmar os valores em fonte confiável.
+4. Buscar os produtos ausentes em uma fonte confiável.
+5. Verificar os preços ausentes em fonte confiável, sem inventar valores.
+6. Verificar a possibilidade de recuperar as regiões ausentes.
 
 8. CONCLUSÃO TÉCNICA
 -----------------------------------------------------------------
 A base apresenta inconsistências que precisam ser avaliadas antes de sua utilização em análises comerciais.
 Nenhum registro foi excluído ou modificado nesta etapa.
-A geração da base tratada deverá ocorrer somente após a aprovação das regras de tratamento.
+A geração da base tratada deverá respeitar as regras de validação e tratamento definidas no projeto.
 
 =================================================================
 FIM DO RELATÓRIO

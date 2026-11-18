@@ -2,12 +2,45 @@
 from pathlib import Path
 from datetime import datetime
 
+import pandas as pd
+
 from importar_dados import importar_dados
 from validar_dados import validar_dados
 
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 ARQUIVO_RELATORIO = BASE_DIR / "outputs" / "relatorio_validacao.txt"
+
+
+def ids_dos_registros(df, mascara):
+    """Retorna os IDs dos registros identificados por uma condição."""
+
+    registros = df.loc[mascara]
+
+    if registros.empty:
+        return "Nenhum"
+
+    if "id_venda" not in registros.columns:
+        return "Não disponível"
+
+    ids = registros["id_venda"].dropna().drop_duplicates().tolist()
+
+    if registros["id_venda"].isna().any():
+        ids.append("ID ausente")
+
+    if not ids:
+        return "ID ausente"
+
+    return ", ".join(str(valor) for valor in ids)
+
+
+def campo_ausente(df, coluna):
+    """Identifica valores ausentes ou textos vazios."""
+
+    return (
+        df[coluna].isna()
+        | df[coluna].astype(str).str.strip().eq("")
+    )
 
 
 def gerar_relatorio(df, resultados):
@@ -18,6 +51,27 @@ def gerar_relatorio(df, resultados):
     comercial = resultados["comercial"]
 
     linhas = []
+
+    # Identificação dinâmica dos problemas
+    ids_duplicados = df["id_venda"].duplicated(keep=False)
+
+    registros_duplicados = df.duplicated(keep=False)
+
+    quantidades = pd.to_numeric(
+        df["quantidade"],
+        errors="coerce"
+    )
+
+    precos = pd.to_numeric(
+        df["preco_unitario"],
+        errors="coerce"
+    )
+
+    quantidade_invalida = quantidades.isna() | (quantidades <= 0)
+    preco_ausente = precos.isna()
+
+    produto_ausente = campo_ausente(df, "produto")
+    regiao_ausente = campo_ausente(df, "regiao")
 
     linhas.append("=" * 65)
     linhas.append("DATASOLUTIONS")
@@ -49,6 +103,16 @@ def gerar_relatorio(df, resultados):
     linhas.append(
         f"Linhas envolvidas em IDs repetidos: "
         f"{len(identificadores['ids_repetidos'])}"
+    )
+
+    linhas.append(
+        f"IDs repetidos identificados: "
+        f"{ids_dos_registros(df, ids_duplicados)}"
+    )
+
+    linhas.append(
+        f"IDs em registros totalmente duplicados: "
+        f"{ids_dos_registros(df, registros_duplicados)}"
     )
 
     if not identificadores["ids_repetidos"].empty:
@@ -87,12 +151,14 @@ def gerar_relatorio(df, resultados):
 
     if identificadores["ids_repetidos"].shape[0] > 0:
         problemas.append(
-            "Identificador de venda repetido: ID 9."
+            f"IDs de venda repetidos: "
+            f"{ids_dos_registros(df, ids_duplicados)}."
         )
 
     if identificadores["total_linhas_duplicadas"] > 0:
         problemas.append(
-            "Registro totalmente duplicado: ID 9."
+            f"Registros totalmente duplicados: "
+            f"{ids_dos_registros(df, registros_duplicados)}."
         )
 
     if datas["datas_ausentes"] > 0:
@@ -103,17 +169,27 @@ def gerar_relatorio(df, resultados):
 
     if comercial["quantidade"]["invalidos"] > 0:
         problemas.append(
-            "Quantidade menor ou igual a zero: investigar ID 6."
+            f"Quantidade inválida ou menor ou igual a zero: "
+            f"investigar IDs {ids_dos_registros(df, quantidade_invalida)}."
         )
 
     if comercial["produto"]["ausentes"] > 0:
-        problemas.append("Produto ausente: investigar ID 8.")
+        problemas.append(
+            f"Produto ausente: investigar IDs "
+            f"{ids_dos_registros(df, produto_ausente)}."
+        )
 
     if comercial["preco_unitario"]["ausentes"] > 0:
-        problemas.append("Preço unitário ausente: investigar ID 10.")
+        problemas.append(
+            f"Preço unitário ausente: investigar IDs "
+            f"{ids_dos_registros(df, preco_ausente)}."
+        )
 
     if comercial["regiao"]["ausentes"] > 0:
-        problemas.append("Região ausente: investigar ID 12.")
+        problemas.append(
+            f"Região ausente: investigar IDs "
+            f"{ids_dos_registros(df, regiao_ausente)}."
+        )
 
     if problemas:
         for indice, problema in enumerate(problemas, start=1):
@@ -124,35 +200,76 @@ def gerar_relatorio(df, resultados):
     # 7. Proposta de tratamento
     linhas.append("\n7. PROPOSTA DE TRATAMENTO")
     linhas.append("-" * 65)
-    linhas.append(
-        "ID 9: preservar as ocorrências até análise e aprovação manual."
-    )
-    linhas.append(
-        "ID 6: investigar a origem da quantidade negativa."
-    )
-    linhas.append(
-        "ID 8: buscar o produto em fonte confiável."
-    )
-    linhas.append(
-        "ID 10: buscar o preço em fonte confiável, sem inventar valores."
-    )
-    linhas.append(
-        "ID 12: verificar a possibilidade de recuperar a região."
-    )
+
+    propostas = []
+
+    if identificadores["ids_repetidos"].shape[0] > 0:
+        propostas.append(
+            "Analisar os IDs repetidos e preservar as ocorrências "
+            "até a aprovação manual."
+        )
+
+    if identificadores["total_linhas_duplicadas"] > 0:
+        propostas.append(
+            "Investigar os registros totalmente duplicados antes "
+            "de qualquer exclusão."
+        )
+
+    if comercial["quantidade"]["invalidos"] > 0:
+        propostas.append(
+            "Investigar a origem das quantidades inválidas e "
+            "confirmar os valores em fonte confiável."
+        )
+
+    if comercial["produto"]["ausentes"] > 0:
+        propostas.append(
+            "Buscar os produtos ausentes em uma fonte confiável."
+        )
+
+    if comercial["preco_unitario"]["ausentes"] > 0:
+        propostas.append(
+            "Verificar os preços ausentes em fonte confiável, "
+            "sem inventar valores."
+        )
+
+    if comercial["regiao"]["ausentes"] > 0:
+        propostas.append(
+            "Verificar a possibilidade de recuperar as regiões ausentes."
+        )
+
+    if datas["datas_ausentes"] > 0 or datas["datas_invalidas"] > 0:
+        propostas.append(
+            "Investigar as datas ausentes ou inválidas e confirmar "
+            "os valores de origem."
+        )
+
+    if propostas:
+        for indice, proposta in enumerate(propostas, start=1):
+            linhas.append(f"{indice}. {proposta}")
+    else:
+        linhas.append("Nenhuma ação corretiva necessária.")
 
     # 8. Conclusão
     linhas.append("\n8. CONCLUSÃO TÉCNICA")
     linhas.append("-" * 65)
-    linhas.append(
-        "A base apresenta inconsistências que precisam ser avaliadas "
-        "antes de sua utilização em análises comerciais."
-    )
+
+    if problemas:
+        linhas.append(
+            "A base apresenta inconsistências que precisam ser avaliadas "
+            "antes de sua utilização em análises comerciais."
+        )
+    else:
+        linhas.append(
+            "A base não apresentou inconsistências nas regras avaliadas."
+        )
+
     linhas.append(
         "Nenhum registro foi excluído ou modificado nesta etapa."
     )
+
     linhas.append(
-        "A geração da base tratada deverá ocorrer somente após "
-        "a aprovação das regras de tratamento."
+        "A geração da base tratada deverá respeitar as regras "
+        "de validação e tratamento definidas no projeto."
     )
 
     linhas.append("\n" + "=" * 65)
