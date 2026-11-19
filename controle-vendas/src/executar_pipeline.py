@@ -14,6 +14,8 @@ from validar_base_tratada import (
     gerar_relatorio as gerar_relatorio_tratado
 )
 
+from registrar_log import registrar_log
+
 
 # Caminhos do projeto
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -28,91 +30,148 @@ ARQUIVO_RELATORIO_TRATADO = (
 
 
 def executar_pipeline():
-    """Executa todas as etapas do projeto DataSolutions."""
+    """Executa todas as etapas e registra o histórico."""
+
+    # Inicialização dos contadores
+    registros_importados = 0
+    registros_validos = 0
+    registros_pendentes = 0
+    registros_aprovados = 0
+
+    status_validacao = "REPROVADA"
 
     print("=" * 60)
     print("DATASOLUTIONS - PIPELINE DE DADOS")
     print("=" * 60)
 
-    # ETAPA 1 - Importação
-    print("\n[1/5] IMPORTAÇÃO DOS DADOS")
-    print("-" * 60)
+    try:
 
-    df_original = importar_dados()
+        # ETAPA 1 - Importação
+        print("\n[1/5] IMPORTAÇÃO DOS DADOS")
+        print("-" * 60)
 
-    print(f"Registros importados: {len(df_original)}")
+        df_original = importar_dados()
 
-    # ETAPA 2 - Validação da base original
-    print("\n[2/5] VALIDAÇÃO DA BASE ORIGINAL")
-    print("-" * 60)
+        registros_importados = len(df_original)
 
-    resultados_originais = validar_dados(df_original)
+        print(f"Registros importados: {registros_importados}")
 
-    gerar_relatorio_original(
-        df_original,
-        resultados_originais
-    )
+        # ETAPA 2 - Validação da base original
+        print("\n[2/5] VALIDAÇÃO DA BASE ORIGINAL")
+        print("-" * 60)
 
-    print("Validação original concluída.")
-    print(f"Relatório: {ARQUIVO_RELATORIO_ORIGINAL}")
+        resultados_originais = validar_dados(df_original)
 
-    # ETAPA 3 - Tratamento dos dados
-    print("\n[3/5] TRATAMENTO DOS DADOS")
-    print("-" * 60)
+        gerar_relatorio_original(
+            df_original,
+            resultados_originais
+        )
 
-    validos, pendentes = tratar_dados(df_original)
+        print("Validação original concluída.")
+        print(f"Relatório: {ARQUIVO_RELATORIO_ORIGINAL}")
 
-    print(f"Registros originais: {len(df_original)}")
-    print(f"Registros válidos: {len(validos)}")
-    print(f"Registros pendentes: {len(pendentes)}")
+        # ETAPA 3 - Tratamento dos dados
+        print("\n[3/5] TRATAMENTO DOS DADOS")
+        print("-" * 60)
 
-    print("\nArquivos gerados:")
-    print("data/vendas_tratadas.csv")
-    print("outputs/registros_pendentes.csv")
+        validos, pendentes = tratar_dados(df_original)
 
-    # ETAPA 4 - Validação da base tratada
-    print("\n[4/5] VALIDAÇÃO DA BASE TRATADA")
-    print("-" * 60)
+        registros_validos = len(validos)
+        registros_pendentes = len(pendentes)
 
-    df_tratado = importar_base_tratada()
+        print(f"Registros originais: {registros_importados}")
+        print(f"Registros válidos: {registros_validos}")
+        print(f"Registros pendentes: {registros_pendentes}")
 
-    resultados_tratados = validar_base(df_tratado)
+        print("\nArquivos gerados:")
+        print("data/vendas_tratadas.csv")
+        print("outputs/registros_pendentes.csv")
 
-    aprovado = verificar_aprovacao(resultados_tratados)
+        # ETAPA 4 - Validação da base tratada
+        print("\n[4/5] VALIDAÇÃO DA BASE TRATADA")
+        print("-" * 60)
 
-    print(f"Registros avaliados: {len(df_tratado)}")
+        df_tratado = importar_base_tratada()
 
-    # ETAPA 5 - Relatório e conclusão
-    print("\n[5/5] GERAÇÃO DO RELATÓRIO FINAL")
-    print("-" * 60)
+        resultados_tratados = validar_base(df_tratado)
 
-    relatorio = gerar_relatorio_tratado(
-        df_tratado,
-        resultados_tratados,
-        aprovado
-    )
+        aprovado = verificar_aprovacao(resultados_tratados)
 
-    print(relatorio)
+        registros_aprovados = (
+            len(df_tratado) if aprovado else 0
+        )
 
-    print(f"\nRelatório salvo em: {ARQUIVO_RELATORIO_TRATADO}")
+        status_validacao = (
+            "APROVADA" if aprovado else "REPROVADA"
+        )
 
-    print("\n" + "=" * 60)
-    print("RESULTADO DO PIPELINE")
-    print("=" * 60)
+        print(f"Registros avaliados: {len(df_tratado)}")
 
-    if aprovado:
-        print("STATUS: BASE TRATADA APROVADA")
-    else:
-        print("STATUS: BASE TRATADA REPROVADA")
+        # ETAPA 5 - Relatório e conclusão
+        print("\n[5/5] GERAÇÃO DO RELATÓRIO FINAL")
+        print("-" * 60)
 
-    print(f"Registros processados: {len(df_original)}")
-    print(f"Registros aproveitados: {len(df_tratado)}")
-    print(f"Registros pendentes: {len(pendentes)}")
+        relatorio = gerar_relatorio_tratado(
+            df_tratado,
+            resultados_tratados,
+            aprovado
+        )
 
-    print("\nPipeline executado até o final.")
-    print("A base original foi preservada.")
+        print(relatorio)
 
-    print("=" * 60)
+        print(f"\nRelatório salvo em: {ARQUIVO_RELATORIO_TRATADO}")
+
+        print("\n" + "=" * 60)
+        print("RESULTADO DO PIPELINE")
+        print("=" * 60)
+
+        if aprovado:
+            print("STATUS: BASE TRATADA APROVADA")
+        else:
+            print("STATUS: BASE TRATADA REPROVADA")
+
+        print(f"Registros processados: {registros_importados}")
+        print(f"Registros aproveitados: {len(df_tratado)}")
+        print(f"Registros pendentes: {registros_pendentes}")
+
+        print("\nPipeline executado até o final.")
+        print("A base original foi preservada.")
+
+        print("=" * 60)
+
+        # Registrar execução concluída
+        registrar_log(
+            registros_importados,
+            registros_validos,
+            registros_pendentes,
+            registros_aprovados,
+            status_validacao,
+            "SUCESSO",
+            ""
+        )
+
+    except Exception as erro:
+
+        # Registrar falha de execução
+        registrar_log(
+            registros_importados,
+            registros_validos,
+            registros_pendentes,
+            registros_aprovados,
+            status_validacao,
+            "ERRO",
+            str(erro)
+        )
+
+        print("\n" + "=" * 60)
+        print("ERRO NA EXECUÇÃO DO PIPELINE")
+        print("=" * 60)
+
+        print(f"Mensagem: {erro}")
+
+        print("=" * 60)
+
+        raise
 
 
 if __name__ == "__main__":

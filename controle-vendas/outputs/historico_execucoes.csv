@@ -1,0 +1,6 @@
+data_execucao,hora_execucao,registros_importados,registros_validos,registros_pendentes,registros_aprovados,status_validacao,status_execucao,mensagem_erro
+19/11/2026,15:36:54,13,10,3,10,APROVADA,SUCESSO,
+19/11/2026,18:01:29,20,15,5,15,APROVADA,SUCESSO,
+19/11/2026,18:03:30,13,0,0,0,REPROVADA,ERRO,Erro simulado: arquivo não encontrado
+19/11/2026,18:55:57,13,7,6,7,APROVADA,SUCESSO,
+19/11/2026,18:58:11,0,0,0,0,REPROVADA,ERRO,Falha simulada para teste
