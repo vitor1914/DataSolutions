@@ -6,7 +6,7 @@ RELATÓRIO DE VALIDAÇÃO DE DADOS
 1. IDENTIFICAÇÃO DA BASE
 -----------------------------------------------------------------
 Arquivo analisado: vendas_brutas.csv
-Data da validação: 19/11/2026 18:55:57
+Data da validação: 20/11/2026 19:36:15
 
 2. DIMENSÕES DA BASE
 -----------------------------------------------------------------

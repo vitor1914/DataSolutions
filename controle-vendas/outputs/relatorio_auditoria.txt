@@ -1,0 +1,36 @@
+============================================================
+DATASOLUTIONS - RELATORIO DE AUDITORIA
+============================================================
+
+Data da auditoria: 20/11/2026 19:36:15
+
+1. INDICADORES GERAIS
+------------------------------------------------------------
+Total de registros: 13
+Registros aprovados: 7
+Registros reprovados: 6
+Taxa de aprovacao: 53.85%
+Taxa de reprovacao: 46.15%
+
+2. OCORRENCIAS POR CATEGORIA
+------------------------------------------------------------
+id_ausente: 0
+id_repetido: 2
+linha_duplicada: 2
+data_ausente: 0
+data_invalida: 0
+quantidade_ausente: 0
+quantidade_invalida: 1
+preco_ausente: 1
+preco_invalido: 0
+produto_ausente: 1
+categoria_ausente: 0
+vendedor_ausente: 0
+regiao_ausente: 1
+
+3. RESULTADO DA AUDITORIA
+------------------------------------------------------------
+Auditoria concluida.
+Base original preservada.
+
+============================================================

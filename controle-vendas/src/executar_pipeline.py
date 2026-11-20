@@ -3,6 +3,7 @@ from pathlib import Path
 
 from importar_dados import importar_dados
 from validar_dados import validar_dados
+from auditoria_dados import auditar_dados, gerar_relatorio_auditoria
 from gerar_relatorio import gerar_relatorio as gerar_relatorio_original
 
 from tratar_dados import tratar_dados
@@ -22,6 +23,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 ARQUIVO_RELATORIO_ORIGINAL = (
     BASE_DIR / "outputs" / "relatorio_validacao.txt"
+)
+
+ARQUIVO_RELATORIO_AUDITORIA = (
+    BASE_DIR / "outputs" / "relatorio_auditoria.txt"
 )
 
 ARQUIVO_RELATORIO_TRATADO = (
@@ -61,6 +66,22 @@ def executar_pipeline():
         print("-" * 60)
 
         resultados_originais = validar_dados(df_original)
+
+        # AUDITORIA DOS DADOS ORIGINAIS
+        print("\nAUDITORIA DOS DADOS ORIGINAIS")
+        print("-" * 60)
+
+        auditoria = auditar_dados(
+            df_original,
+            resultados_originais
+        )
+
+        gerar_relatorio_auditoria(
+            auditoria,
+            ARQUIVO_RELATORIO_AUDITORIA
+        )
+
+        print("Auditoria concluída.")
 
         gerar_relatorio_original(
             df_original,
