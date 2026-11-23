@@ -1,0 +1,33 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.7, pytest-9.2.0, pluggy-1.7.0 -- /home/vitoka/Área de trabalho/TI/DataSolutions/controle-vendas/.venv/bin/python
+cachedir: .pytest_cache
+rootdir: /home/vitoka/Área de trabalho/TI/DataSolutions/controle-vendas
+collecting ... collected 24 items
+
+tests/test_falhas.py::test_pipeline_registra_falha_na_importacao PASSED  [  4%]
+tests/test_falhas.py::test_falha_preserva_base_original PASSED           [  8%]
+tests/test_historico_falhas.py::test_registrar_erro_no_historico PASSED  [ 12%]
+tests/test_historico_falhas.py::test_historico_preserva_registros_anteriores PASSED [ 16%]
+tests/test_importacao.py::test_importar_csv_valido PASSED                [ 20%]
+tests/test_importacao.py::test_arquivo_inexistente PASSED                [ 25%]
+tests/test_importacao.py::test_arquivo_vazio PASSED                      [ 29%]
+tests/test_importacao.py::test_coluna_id_venda_ausente PASSED            [ 33%]
+tests/test_pipeline.py::test_pipeline_execucao_com_sucesso PASSED        [ 37%]
+tests/test_validar_dados.py::test_identificar_id_duplicado PASSED        [ 41%]
+tests/test_validar_dados.py::test_identificar_id_ausente PASSED          [ 45%]
+tests/test_validar_dados.py::test_identificar_data_invalida PASSED       [ 50%]
+tests/test_validar_dados.py::test_identificar_quantidade_negativa PASSED [ 54%]
+tests/test_validar_dados.py::test_identificar_quantidade_zero PASSED     [ 58%]
+tests/test_validar_dados.py::test_identificar_preco_zero PASSED          [ 62%]
+tests/test_validar_dados.py::test_identificar_preco_ausente PASSED       [ 66%]
+tests/test_validar_dados.py::test_identificar_produto_vazio PASSED       [ 70%]
+tests/test_validar_dados.py::test_aprovar_base_valida PASSED             [ 75%]
+tests/test_validar_dados.py::test_coluna_obrigatoria_ausente PASSED      [ 79%]
+tests/test_validar_dados.py::test_identificar_quantidade_ausente PASSED  [ 83%]
+tests/test_validar_dados.py::test_identificar_preco_negativo PASSED      [ 87%]
+tests/test_validar_dados.py::test_identificar_campo_obrigatorio_vazio[categoria] PASSED [ 91%]
+tests/test_validar_dados.py::test_identificar_campo_obrigatorio_vazio[vendedor] PASSED [ 95%]
+tests/test_validar_dados.py::test_identificar_campo_obrigatorio_vazio[regiao] PASSED [100%]
+
+- generated xml file: /home/vitoka/Área de trabalho/TI/DataSolutions/controle-vendas/outputs/resultado_integracao.xml -
+============================== 24 passed in 0.79s ==============================

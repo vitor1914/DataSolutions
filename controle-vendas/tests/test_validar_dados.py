@@ -130,3 +130,59 @@ def test_aprovar_base_valida(base_valida):
 
     for coluna in ["produto", "categoria", "vendedor", "regiao"]:
         assert resultado["comercial"][coluna]["ausentes"] == 0
+
+
+def test_coluna_obrigatoria_ausente():
+    """Deve gerar erro quando uma coluna obrigatória não existir."""
+
+    import pandas as pd
+    import pytest
+    from validar_dados import validar_dados
+
+    df = pd.DataFrame({
+        "id_venda": [101],
+        "produto": ["Notebook"],
+        "categoria": ["Eletrônicos"],
+        "quantidade": [2],
+        "preco_unitario": [3500.0],
+        "vendedor": ["João"],
+        "regiao": ["Sudeste"]
+    })
+
+    with pytest.raises(KeyError):
+        validar_dados(df)
+
+
+def test_identificar_quantidade_ausente(base_valida):
+    """Deve identificar quantidade ausente."""
+
+    base_valida.loc[0, "quantidade"] = None
+
+    resultado = validar_dados(base_valida)
+
+    assert resultado["comercial"]["quantidade"]["ausentes"] == 1
+
+
+def test_identificar_preco_negativo(base_valida):
+    """Deve identificar preço negativo."""
+
+    base_valida.loc[0, "preco_unitario"] = -10
+
+    resultado = validar_dados(base_valida)
+
+    assert resultado["comercial"]["preco_unitario"]["invalidos"] == 1
+
+
+@pytest.mark.parametrize("coluna", [
+    "categoria",
+    "vendedor",
+    "regiao"
+])
+def test_identificar_campo_obrigatorio_vazio(base_valida, coluna):
+    """Deve identificar campos obrigatórios vazios."""
+
+    base_valida.loc[0, coluna] = "   "
+
+    resultado = validar_dados(base_valida)
+
+    assert resultado["comercial"][coluna]["ausentes"] == 1
