@@ -20,6 +20,10 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
 
+    defaults:
+      run:
+        working-directory: controle-vendas
+
     steps:
       - name: Baixar código do repositório
         uses: actions/checkout@v7
@@ -29,6 +33,7 @@ jobs:
         with:
           python-version: '3.12'
           cache: pip
+          cache-dependency-path: controle-vendas/requirements.txt
 
       - name: Instalar dependências
         run: |
