@@ -6,7 +6,7 @@ RELATÓRIO DE VALIDAÇÃO DA BASE TRATADA
 1. IDENTIFICAÇÃO
 ------------------------------------------------------------
 Arquivo: vendas_tratadas.csv
-Data da validação: 22/11/2026 12:27:59
+Data da validação: 27/11/2026 21:49:05
 
 2. DIMENSÕES
 ------------------------------------------------------------

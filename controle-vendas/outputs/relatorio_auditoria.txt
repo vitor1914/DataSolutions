@@ -2,7 +2,7 @@
 DATASOLUTIONS - RELATORIO DE AUDITORIA
 ============================================================
 
-Data da auditoria: 22/11/2026 12:27:59
+Data da auditoria: 27/11/2026 21:49:05
 
 1. INDICADORES GERAIS
 ------------------------------------------------------------
